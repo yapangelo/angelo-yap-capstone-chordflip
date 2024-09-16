@@ -13,6 +13,11 @@ Wether you are a new musician or a seasoned veteran, at some point you've had to
 Musicians - Regardless of skill level - Looking to easily create songsheets - Easily transpose chords to different keys
 
 ### Features
+- Users can easily type song lyrics
+- Users can input chords on top of song lyrics
+- All chords are transposable to a half step using + and - buttons
+- Once user is done creating the chord sheet, they can download it as a PDF
+- ?? Chords will automatically be set to bold ?? (Not sure how to implement this yet)
 
 ## Implementation
 
