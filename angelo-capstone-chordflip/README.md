@@ -47,10 +47,10 @@ Musicians - Regardless of skill level - Looking to easily create songsheets - Ea
 
 ### Mockups
 
-![](homepage.PNG)
-![](writepage.PNG)
-![](instructionspage.PNG)
-![](aboutpage.PNG)
+![](./public/readmeImages/homepage.PNG)
+![](./public/readmeImages/writepage.PNG)
+![](./public/readmeImages/instructionspage.PNG)
+![](./public/readmeImages/aboutpage.PNG)
 
 ### Data
 
