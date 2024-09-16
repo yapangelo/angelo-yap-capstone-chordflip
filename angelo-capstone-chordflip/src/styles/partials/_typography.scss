@@ -15,15 +15,32 @@ a {
 }
 
 h1 {
-    font-family: 'Roboto Slab';
+    font-family: 'Roboto Slab', 'Times New Roman', Times, serif;
     font-weight: 900;
     font-size: 2rem;
-    line-height: 1.5rem;
+    line-height: 2.625rem;
+}
+
+h2 {
+    font-family: 'Roboto Slab', 'Times New Roman', Times, serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    line-height: 1rem;
 }
 
 @include tablet {
     h1 {
         font-size: 2.5rem;
-        line-height: 2rem;
+        line-height: 3.125rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+        line-height: 1.5rem;
+    }
+
+    p {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
     }
 }
