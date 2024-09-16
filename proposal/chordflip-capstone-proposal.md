@@ -146,6 +146,11 @@ Parameters: - {chord} (C, C#, D, Eb, ...) - {variation} (major, m, dim, 7, ...) 
   - Setup Chords to automatically be bold when typed
   - Create transpose functions
 
+- Feature: Chord chart
+
+  - Create PUT /chords/{chord}/{variation}/generate-graphic endpoint
+  - Integrate to front-end
+
 - Pre-launch: Testing
 
 - Bug fixes
@@ -154,10 +159,6 @@ Parameters: - {chord} (C, C#, D, Eb, ...) - {variation} (major, m, dim, 7, ...) 
 
 ## Future Implementations
 
-- Feature: Chord chart
-
-  - Create PUT /chords/{chord}/{variation}/generate-graphic endpoint
-  - Integrate to front-end
-
 - Add sound to each chords/notes when clicking chords
 - Add rhymes page so users can conveniently enter words and rhyming words would populate
+- Motion backgroun for webpage
