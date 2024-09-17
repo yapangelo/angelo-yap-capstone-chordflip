@@ -11,10 +11,6 @@
         padding-bottom: .5rem;
     }
 
-    &__logo {
-        display: none;
-    }
-
     &__item-header {
         padding: 1rem 0 .5rem 0;
     }
@@ -34,13 +30,6 @@
     }
 
     @include desktop {
-        &__nav {
-            display: none;
-        }
-
-        &__logo {
-            display: flex;
-        }
 
         &__content {
             display: flex;

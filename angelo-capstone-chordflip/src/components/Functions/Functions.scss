@@ -1,0 +1,13 @@
+@use "../../styles/partials/mixins" as *;
+
+.functions {
+    &__icon {
+        padding-left: 1rem;
+    }
+
+    @include tablet {
+        &__icon {
+            width: 30px;
+        }
+    }
+}
