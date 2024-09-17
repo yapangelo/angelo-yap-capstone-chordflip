@@ -1,17 +1,10 @@
 import "./AboutPage.scss";
-import { Link } from "react-router-dom";
-import chevron from "../../assets/chevron.svg";
-import logo from "../../assets/chordflip-logo-notext.svg";
+import Navigation from "../../components/Navigation/Navigation";
 
 const AboutPage = () => {
   return (
     <div className="aboutpage">
-      <Link to="/">
-        <img src={chevron} alt="back" className="aboutpage__nav" />
-      </Link>
-      <Link to="/">
-        <img src={logo} alt="back" className="aboutpage__logo" />
-      </Link>
+      <Navigation />
       <div className="aboutpage__content">
         <h2 className="aboutpage__title">ABOUT</h2>
         <p>

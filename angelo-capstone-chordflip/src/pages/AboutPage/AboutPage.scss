@@ -11,10 +11,6 @@
         padding-bottom: 1rem;
     }
 
-    &__logo {
-        display: none;
-    }
-
     @include tablet {
         &__content {
             padding: 4rem 4rem;
@@ -26,10 +22,6 @@
     }
 
     @include desktop {
-        &__nav {
-            display: none;
-        }
-
         &__logo {
             display: flex;
         }

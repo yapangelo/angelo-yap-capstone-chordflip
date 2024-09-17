@@ -1,0 +1,31 @@
+@use "../../styles/partials/mixins" as *;
+
+.navigation {
+    &__logo {
+        display: none;
+    }
+
+    &__nav {
+        display: flex;
+    }
+
+    @include tablet {
+        &__nav {
+            width: 32px;
+        }
+    }
+
+    @include desktop {
+        &__nav {
+            display: none;
+            &--hide {
+                display: none;
+            }
+        }
+
+        &__logo {
+            display: flex;
+            width: 32px;
+        }
+    }
+}

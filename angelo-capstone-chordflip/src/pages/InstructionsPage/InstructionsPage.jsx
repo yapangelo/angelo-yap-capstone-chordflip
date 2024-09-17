@@ -1,17 +1,10 @@
 import "./InstructionsPage.scss";
-import { Link } from "react-router-dom";
-import chevron from "../../assets/chevron.svg";
-import logo from "../../assets/chordflip-logo-notext.svg";
+import Navigation from "../../components/Navigation/Navigation";
 
 const InstructionsPage = () => {
   return (
     <div className="instructionspage">
-      <Link to="/">
-        <img src={chevron} alt="back" className="instructionspage__nav" />
-      </Link>
-      <Link to="/">
-        <img src={logo} alt="back" className="instructionspage__logo" />
-      </Link>
+      <Navigation />
       <div className="instructionspage__content">
         <h2 className="instructionspage__title">HOW TO USE</h2>
         <ol className="instructionspage__instructions">

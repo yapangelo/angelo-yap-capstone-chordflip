@@ -14,3 +14,24 @@
     max-width: 1730px;
     margin: 0 auto;
 }
+
+@mixin textarea-mobile {
+    background: transparent;
+    border: none;
+    resize: none;
+}
+
+@mixin song-title-mb {
+    font-family: 'Roboto Slab', 'Times New Roman', Times, serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    line-height: 1rem;
+    color: #aaaaaa;
+}
+
+@mixin artist-lyric-mb {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.25rem;
+}
