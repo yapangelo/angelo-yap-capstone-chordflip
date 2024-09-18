@@ -4,6 +4,7 @@ import { Text, createEditor, Transforms, Editor } from "slate";
 import { withHistory } from "slate-history";
 import axios from "axios";
 import isHotkey from "is-hotkey";
+import jsPDF from "jspdf";
 import "./TextArea.scss";
 import Functions from "../Functions/Functions";
 
@@ -15,6 +16,61 @@ const TextArea = () => {
       children: [{ text: "" }],
     },
   ]);
+
+  const [title, setTitle] = useState("");
+  const [artist, setArtist] = useState("");
+
+  const extractSlateContent = () => {
+    return value
+      .map((node) => node.children.map((n) => n.text).join(""))
+      .join("\n");
+  };
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    const pageHeight = doc.internal.pageSize.height; // Get page height
+    const lineHeight = 7; // Height of one line of text
+    let currentY = 20; // Start position for the content
+
+    // Add the title (in bold)
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text(title, 10, currentY);
+    currentY += lineHeight; // Move to the next line
+
+    // Add the artist
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(artist, 10, currentY);
+    currentY += lineHeight;
+
+    // Extract the chords and lyrics from the Slate editor
+    const chordsText = extractSlateContent();
+
+    // Function to handle adding text and page breaks
+    const addTextWithPageBreaks = (text, x, y) => {
+      const lines = doc.splitTextToSize(text, 180); // Split text into lines that fit within the width of the page
+      lines.forEach((line) => {
+        if (y + lineHeight > pageHeight - 10) {
+          // Check if the current position exceeds page height
+          doc.addPage(); // Add a new page
+          y = 10; // Reset y position at the top of the new page
+        }
+        doc.text(line, x, y); // Add the text
+        y += lineHeight; // Move to the next line
+      });
+      return y; // Return the updated y-coordinate
+    };
+
+    // Add the chords and lyrics, handling page overflow
+    currentY = addTextWithPageBreaks(chordsText, 10, currentY);
+
+    // Save the PDF
+    doc.save(`${title || "Song"}.pdf`);
+  };
+
+  const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleArtistChange = (e) => setArtist(e.target.value);
 
   const [chordData, setChordData] = useState({});
 
@@ -195,10 +251,21 @@ const TextArea = () => {
         <Functions
           onTransposeUp={handleTransposeUp}
           onTransposeDown={handleTransposeDown}
+          onDownload={generatePDF}
         />
       </div>
-      <input className="textarea__title" placeholder="Songtitle" />
-      <input className="textarea__artist" placeholder="Artist" />
+      <input
+        className="textarea__title"
+        placeholder="Songtitle"
+        value={title}
+        onChange={handleTitleChange}
+      />
+      <input
+        className="textarea__artist"
+        placeholder="Artist"
+        value={artist}
+        onChange={handleArtistChange}
+      />
       <Slate
         editor={editor}
         initialValue={value}

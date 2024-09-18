@@ -4,9 +4,9 @@ import guitar from "../../assets/func-guitar.svg";
 import piano from "../../assets/func-piano.svg";
 import up from "../../assets/func-up.svg";
 import down from "../../assets/func-down.svg";
-import download from "../../assets/func-download.svg";
+import download from "../../assets/func-download.png";
 
-const Functions = ({ onTransposeUp, onTransposeDown }) => {
+const Functions = ({ onTransposeUp, onTransposeDown, onDownload }) => {
   const [instrument, setInstrument] = useState(true);
 
   const toggleInstrumentIcon = () => {
@@ -33,7 +33,12 @@ const Functions = ({ onTransposeUp, onTransposeDown }) => {
         className="functions__icon"
         onClick={onTransposeDown} // Trigger transpose down
       />
-      <img src={download} alt="download" className="functions__icon" />
+      <img
+        src={download}
+        alt="download"
+        className="functions__icon"
+        onClick={onDownload}
+      />
     </div>
   );
 };

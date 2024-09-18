@@ -17,6 +17,9 @@
         &:focus {
             outline: none;
         }
+        &:hover {
+            border: 1px solid rgb(216, 216, 216)
+        }
     }
 
     &__artist, &__chords {
@@ -27,7 +30,7 @@
     }
 
     &__chords {
-        height: 35rem;
+        height: 40rem;
         scrollbar-width: none;
         margin-top: 1.5rem;
         overflow-y: auto;
