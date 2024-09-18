@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: center;
 
-    &__title {
+    &__title, &__artist, &__chords {
         @include textarea-mobile;
         @include song-title-mb;
         color: black;
@@ -33,7 +33,8 @@
     &__chords {
         height: 35rem;
         scrollbar-width: none;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+        overflow-y: auto;
     }
 
     @include tablet {
@@ -44,33 +45,9 @@
         &__artist, &__chords {
             font-size: 1.25rem;
             line-height: 1.25rem;
+            &::placeholder {
+                @include artist-lyric-dt;
+            }
         }
     }
-
-    &::-webkit-scrollbar {
-        display: none;
-      }
 }
-
-.chord-matches {
-    margin-top: 1rem;
-    background-color: #f9f9f9;
-    padding: 1rem;
-    border-radius: 8px;
-    
-    h4 {
-      margin-bottom: 0.5rem;
-    }
-  
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-  
-      li {
-        background-color: #e0f7fa;
-        padding: 0.5rem;
-        margin: 0.2rem 0;
-        border-radius: 4px;
-      }
-    }
-  }

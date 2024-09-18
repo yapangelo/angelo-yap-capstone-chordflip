@@ -30,8 +30,16 @@
 }
 
 @mixin artist-lyric-mb {
-    font-family: 'Montserrat';
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     font-weight: 400;
     font-size: 1rem;
     line-height: 1.25rem;
+}
+
+@mixin artist-lyric-dt {
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    color: #aaaaaa;
 }

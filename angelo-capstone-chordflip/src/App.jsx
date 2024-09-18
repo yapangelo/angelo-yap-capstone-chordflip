@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import WritePage from "./pages/WritePage/WritePage";
 import InstructionsPage from "./pages/InstructionsPage/InstructionsPage";
 import AboutPage from "./pages/AboutPage/AboutPage";
-// import Test from "./pages/Test/Test";
+import SimpleTextEditor from "./pages/SimpleTextEditor/SimpleTextEditor";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path="/write" element={<WritePage />} />
         <Route path="/instructions" element={<InstructionsPage />} />
         <Route path="/about" element={<AboutPage />} />
-        {/* <Route path="/test" element={<Test />} /> */}
+        <Route path="/test" element={<SimpleTextEditor />} />
       </Routes>
     </BrowserRouter>
   );

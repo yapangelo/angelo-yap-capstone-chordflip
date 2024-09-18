@@ -1,27 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { Slate, Editable, withReact } from "slate-react";
+import { createEditor, Text } from "slate";
+import { withHistory } from "slate-history";
 import axios from "axios";
+import isHotkey from "is-hotkey";
 import "./TextArea.scss";
 
 const TextArea = () => {
-  const [chordNames, setChordNames] = useState([]);
-  const [text, setText] = useState("");
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const [value, setValue] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "" }],
+    },
+  ]);
+
+  const [chordData, setChordData] = useState({});
 
   useEffect(() => {
     const fetchChords = async () => {
       try {
         const response = await axios.get("http://localhost:8080/chords");
         console.log("API Response:", response.data);
-
-        const chordNamesArray = [];
-        for (const chord in response.data) {
-          for (const variation in response.data[chord]) {
-            if (response.data[chord][variation].name) {
-              chordNamesArray.push(response.data[chord][variation].name);
-            }
-          }
-        }
-
-        setChordNames(chordNamesArray);
+        setChordData(response.data);
       } catch (error) {
         console.error("Error fetching chords:", error);
       }
@@ -30,38 +31,83 @@ const TextArea = () => {
     fetchChords();
   }, []);
 
-  const formatChords = (inputText) => {
-    if (!inputText || !Array.isArray(chordNames)) return inputText;
+  const isChord = (word) => {
+    if (!word || word.length < 1) return false;
+    const chordLetter = word[0].toUpperCase();
+    const chordModifier = word.slice(1);
 
-    const words = inputText.split(" ");
+    if (!chordModifier) {
+      return chordData[chordLetter] && chordData[chordLetter]["major"];
+    }
 
-    const formattedWords = words.map((word) => {
-      const isChord = chordNames.includes(word);
-      if (isChord) {
-        return `<strong>${word}</strong>`;
-      }
-      return word;
-    });
-
-    return formattedWords.join(" ");
+    return chordData[chordLetter] && chordData[chordLetter][chordModifier];
   };
 
-  const handleInput = (e) => {
-    const input = e.target.innerText;
-    setText(input);
+  const decorate = useCallback(
+    ([node, path]) => {
+      const ranges = [];
+      if (Text.isText(node)) {
+        const { text } = node;
+        const words = text.split(" ");
+        let start = 0;
+
+        words.forEach((word) => {
+          const end = start + word.length;
+          if (isChord(word)) {
+            ranges.push({
+              anchor: { path, offset: start },
+              focus: { path, offset: end },
+              chord: true,
+            });
+          }
+          start = end + 1;
+        });
+      }
+
+      return ranges;
+    },
+    [chordData]
+  );
+
+  const renderLeaf = useCallback(({ attributes, children, leaf }) => {
+    if (leaf.chord) {
+      return <strong {...attributes}>{children}</strong>;
+    }
+
+    return <span {...attributes}>{children}</span>;
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (isHotkey("mod+z", e)) {
+      e.preventDefault();
+      editor.undo();
+    } else if (isHotkey("mod+shift+z", e)) {
+      e.preventDefault();
+      editor.redo();
+    } else if (isHotkey("tab", e)) {
+      e.preventDefault();
+      editor.insertText("    ");
+    }
   };
 
   return (
     <div className="textarea">
       <input className="textarea__title" placeholder="Songtitle" />
       <input className="textarea__artist" placeholder="Artist" />
-      <div
-        className="textarea__chords"
-        contentEditable="true"
-        onInput={handleInput}
-        dangerouslySetInnerHTML={{ __html: formatChords(text) }}
-        style={{ whiteSpace: "pre-wrap" }}
-      />
+      <Slate
+        editor={editor}
+        initialValue={value}
+        onChange={(newValue) => setValue(newValue)}
+        className="textarea__chords-container"
+      >
+        <Editable
+          decorate={decorate}
+          renderLeaf={renderLeaf}
+          onKeyDown={handleKeyDown}
+          placeholder="Lyrics and chords..."
+          className="textarea__chords"
+        />
+      </Slate>
     </div>
   );
 };
