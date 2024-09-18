@@ -1,0 +1,22 @@
+.toolbar {
+    margin-bottom: 10px;
+  }
+  
+  .toolbar button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+  
+  .toolbar button:hover {
+    background-color: #eee;
+  }
+  
+  .editor {
+    border: 1px solid #ddd;
+    padding: 10px;
+    min-height: 300px;
+  }
+  
