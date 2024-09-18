@@ -8,13 +8,13 @@ const HomePage = () => {
       <img src={logo} alt="chordflip logo" className="homepage__logo" />
       <div className="homepage__nav">
         <Link to="/write">
-          <h1>WRITE</h1>
+          <h1 className="homepage__nav-item">WRITE</h1>
         </Link>
         <Link to="/instructions">
-          <h1>INSTRUCTIONS</h1>
+          <h1 className="homepage__nav-item">INSTRUCTIONS</h1>
         </Link>
         <Link to="/about">
-          <h1>ABOUT</h1>
+          <h1 className="homepage__nav-item">ABOUT</h1>
         </Link>
       </div>
     </div>
