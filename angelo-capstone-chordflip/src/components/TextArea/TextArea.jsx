@@ -28,44 +28,37 @@ const TextArea = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    const pageHeight = doc.internal.pageSize.height; // Get page height
-    const lineHeight = 7; // Height of one line of text
-    let currentY = 20; // Start position for the content
+    const pageHeight = doc.internal.pageSize.height;
+    const lineHeight = 7;
+    let currentY = 20;
 
-    // Add the title (in bold)
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text(title, 10, currentY);
-    currentY += lineHeight; // Move to the next line
+    currentY += lineHeight;
 
-    // Add the artist
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
     doc.text(artist, 10, currentY);
     currentY += lineHeight;
 
-    // Extract the chords and lyrics from the Slate editor
     const chordsText = extractSlateContent();
 
-    // Function to handle adding text and page breaks
     const addTextWithPageBreaks = (text, x, y) => {
-      const lines = doc.splitTextToSize(text, 180); // Split text into lines that fit within the width of the page
+      const lines = doc.splitTextToSize(text, 180);
       lines.forEach((line) => {
         if (y + lineHeight > pageHeight - 10) {
-          // Check if the current position exceeds page height
-          doc.addPage(); // Add a new page
-          y = 10; // Reset y position at the top of the new page
+          doc.addPage();
+          y = 10;
         }
-        doc.text(line, x, y); // Add the text
-        y += lineHeight; // Move to the next line
+        doc.text(line, x, y);
+        y += lineHeight;
       });
-      return y; // Return the updated y-coordinate
+      return y;
     };
 
-    // Add the chords and lyrics, handling page overflow
     currentY = addTextWithPageBreaks(chordsText, 10, currentY);
 
-    // Save the PDF
     doc.save(`${title || "Song"}.pdf`);
   };
 
