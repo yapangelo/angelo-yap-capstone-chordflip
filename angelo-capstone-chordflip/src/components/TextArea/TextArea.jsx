@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Slate, Editable, withReact } from "slate-react";
-import { createEditor, Text } from "slate";
+import { Text, createEditor, Transforms, Editor } from "slate";
 import { withHistory } from "slate-history";
 import axios from "axios";
 import isHotkey from "is-hotkey";
@@ -32,13 +32,109 @@ const TextArea = () => {
     fetchChords();
   }, []);
 
+  const transposeChord = (chord, direction) => {
+    const chromaticScale = [
+      "A",
+      "A#",
+      "B",
+      "C",
+      "C#",
+      "D",
+      "D#",
+      "E",
+      "F",
+      "F#",
+      "G",
+      "G#",
+    ];
+
+    if (chord.includes("/")) {
+      const [baseChord, bassNote] = chord.split("/");
+      const transposeBaseChord = transposeChord(baseChord, direction);
+      const transposeBassNote = transposeChord(bassNote, direction);
+      return `${transposeBaseChord}/${transposeBassNote}`;
+    }
+
+    const sharpChord = chord.length > 1 && chord[1] === "#";
+    const baseChord = sharpChord ? chord.slice(0, 2) : chord[0];
+    const modifier = sharpChord ? chord.slice(2) : chord.slice(1);
+
+    const chordIndex = chromaticScale.findIndex((note) => note === baseChord);
+
+    let newIndex = direction === "up" ? chordIndex + 1 : chordIndex - 1;
+
+    if (newIndex >= chromaticScale.length) newIndex = 0;
+    if (newIndex < 0) newIndex = chromaticScale.length - 1;
+
+    const newChordLetter = chromaticScale[newIndex];
+
+    return newChordLetter + modifier;
+  };
+
+  const transposeText = (direction) => {
+    const nodes = Array.from(Editor.nodes(editor, { at: [] }));
+
+    nodes.forEach(([node, path]) => {
+      if (Text.isText(node)) {
+        const words = node.text.split(" ");
+        const transposedWords = words.map((word) => {
+          if (isChord(word)) {
+            return transposeChord(word, direction);
+          }
+          return word;
+        });
+
+        Transforms.insertText(editor, transposedWords.join(" "), { at: path });
+      }
+    });
+  };
+
+  const handleTransposeUp = () => transposeText("up");
+  const handleTransposeDown = () => transposeText("down");
+
   const isChord = (word) => {
     if (!word || word.length < 1) return false;
+
+    if (word === "a") {
+      return false;
+    }
+
+    if (word.includes("/")) {
+      const [baseChord, bassNote] = word.split("/");
+      return isChord(baseChord) && isChord(bassNote);
+    }
+
     const chordLetter = word[0].toUpperCase();
     const chordModifier = word.slice(1);
 
     if (!chordModifier) {
       return chordData[chordLetter] && chordData[chordLetter]["major"];
+    }
+
+    if (chordModifier.startsWith("#")) {
+      const sharpChord = chordLetter + "#";
+      const sharpModifier = chordModifier.slice(1);
+      return (
+        chordData[sharpChord] &&
+        (sharpModifier
+          ? chordData[sharpChord][sharpModifier]
+          : chordData[sharpChord]["major"])
+      );
+    }
+
+    if (chordModifier.startsWith("sus")) {
+      if (
+        chordData[chordLetter] &&
+        (chordData[chordLetter]["sus2"] || chordData[chordLetter]["sus4"])
+      ) {
+        chordData[chordLetter]["sus"] =
+          chordData[chordLetter]["sus2"] || chordData[chordLetter]["sus4"];
+      }
+
+      return (
+        chordData[chordLetter] &&
+        (chordData[chordLetter]["sus"] || chordData[chordLetter][chordModifier])
+      );
     }
 
     return chordData[chordLetter] && chordData[chordLetter][chordModifier];
@@ -54,6 +150,7 @@ const TextArea = () => {
 
         words.forEach((word) => {
           const end = start + word.length;
+
           if (isChord(word)) {
             ranges.push({
               anchor: { path, offset: start },
@@ -61,6 +158,7 @@ const TextArea = () => {
               chord: true,
             });
           }
+
           start = end + 1;
         });
       }
@@ -94,7 +192,10 @@ const TextArea = () => {
   return (
     <div className="textarea">
       <div className="textarea__functions">
-        <Functions />
+        <Functions
+          onTransposeUp={handleTransposeUp}
+          onTransposeDown={handleTransposeDown}
+        />
       </div>
       <input className="textarea__title" placeholder="Songtitle" />
       <input className="textarea__artist" placeholder="Artist" />
