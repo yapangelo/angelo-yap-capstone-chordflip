@@ -1,0 +1,61 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/typography" as *;
+
+.textarea {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__title, &__artist, &__chords {
+        @include textarea-mobile;
+        @include song-title-mb;
+        color: black;
+        &::placeholder {
+            @include song-title-mb;
+        }
+        &:focus {
+            outline: none;
+        }
+        &:hover {
+            border: 1px solid rgb(216, 216, 216)
+        }
+    }
+
+    &__artist, &__chords {
+        @include artist-lyric-mb;
+        &::placeholder {
+            @include artist-lyric-mb;
+        }
+    }
+
+    &__chords {
+        height: 40rem;
+        scrollbar-width: none;
+        margin-top: 1.5rem;
+        overflow-y: auto;
+    }
+
+    &__functions {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    @include tablet {
+        &__title {
+            font-size: 1.5rem;
+            line-height: 1.25rem;
+        }
+        &__artist, &__chords {
+            font-size: 1.25rem;
+            line-height: 1.25rem;
+            &::placeholder {
+                @include artist-lyric-dt;
+            }
+        }
+        &__functions {
+            position: relative;
+            bottom: 2.25rem;
+        }
+    }
+}

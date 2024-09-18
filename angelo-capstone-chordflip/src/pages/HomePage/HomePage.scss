@@ -1,0 +1,28 @@
+@use "../../styles/partials/typography" as *;
+@use "../../styles/partials/mixins" as *;
+
+.homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__logo {
+        width: 13.75rem;
+    }
+
+    &__nav {
+        text-align: center;
+        padding: 6.25rem;
+    }
+
+    &__nav-item:hover {
+        transform: scale(1.1);
+        transition-duration: 500ms;
+    }
+
+    @include tablet {
+        &__logo {
+            width: 18.125rem;
+        }
+    }
+}

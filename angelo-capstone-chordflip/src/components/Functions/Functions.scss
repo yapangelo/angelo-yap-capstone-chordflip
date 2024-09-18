@@ -1,0 +1,16 @@
+@use "../../styles/partials/mixins" as *;
+
+.functions {
+    &__icon {
+        padding-left: 1rem;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    @include tablet {
+        &__icon {
+            width: 30px;
+        }
+    }
+}
