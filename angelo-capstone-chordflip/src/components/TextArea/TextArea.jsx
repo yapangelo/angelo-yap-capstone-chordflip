@@ -5,6 +5,7 @@ import { withHistory } from "slate-history";
 import axios from "axios";
 import isHotkey from "is-hotkey";
 import "./TextArea.scss";
+import Functions from "../Functions/Functions";
 
 const TextArea = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -92,6 +93,9 @@ const TextArea = () => {
 
   return (
     <div className="textarea">
+      <div className="textarea__functions">
+        <Functions />
+      </div>
       <input className="textarea__title" placeholder="Songtitle" />
       <input className="textarea__artist" placeholder="Artist" />
       <Slate

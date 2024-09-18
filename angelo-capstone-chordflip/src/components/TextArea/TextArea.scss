@@ -2,7 +2,7 @@
 @use "../../styles/partials/typography" as *;
 
 .textarea {
-    padding: 2rem 1rem;
+    padding: 0 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,13 +20,9 @@
     }
 
     &__artist, &__chords {
-        @include textarea-mobile;
         @include artist-lyric-mb;
         &::placeholder {
             @include artist-lyric-mb;
-        }
-        &:focus {
-            outline: none;
         }
     }
 
@@ -35,6 +31,11 @@
         scrollbar-width: none;
         margin-top: 1.5rem;
         overflow-y: auto;
+    }
+
+    &__functions {
+        display: flex;
+        justify-content: flex-end;
     }
 
     @include tablet {
@@ -48,6 +49,10 @@
             &::placeholder {
                 @include artist-lyric-dt;
             }
+        }
+        &__functions {
+            position: relative;
+            bottom: 2.25rem;
         }
     }
 }
