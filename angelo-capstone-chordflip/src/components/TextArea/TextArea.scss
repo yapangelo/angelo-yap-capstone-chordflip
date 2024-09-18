@@ -2,12 +2,12 @@
 @use "../../styles/partials/typography" as *;
 
 .textarea {
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
 
-    &__title {
+    &__title, &__artist, &__chords {
         @include textarea-mobile;
         @include song-title-mb;
         color: black;
@@ -33,7 +33,8 @@
     &__chords {
         height: 35rem;
         scrollbar-width: none;
-        margin-top: 2rem;
+        margin-top: 1.5rem;
+        overflow-y: auto;
     }
 
     @include tablet {
@@ -44,11 +45,9 @@
         &__artist, &__chords {
             font-size: 1.25rem;
             line-height: 1.25rem;
+            &::placeholder {
+                @include artist-lyric-dt;
+            }
         }
     }
-
-    &::-webkit-scrollbar {
-        display: none;
-      }
 }
-
