@@ -6,8 +6,9 @@ import up from "../../assets/func-up.svg";
 import down from "../../assets/func-down.svg";
 import download from "../../assets/func-download.svg";
 
-const Functions = () => {
+const Functions = ({ onTransposeUp, onTransposeDown }) => {
   const [instrument, setInstrument] = useState(true);
+
   const toggleInstrumentIcon = () => {
     setInstrument((prevState) => !prevState);
   };
@@ -20,8 +21,18 @@ const Functions = () => {
         className="functions__icon"
         onClick={toggleInstrumentIcon}
       />
-      <img src={up} alt="up" className="functions__icon" />
-      <img src={down} alt="down" className="functions__icon" />
+      <img
+        src={up}
+        alt="up"
+        className="functions__icon"
+        onClick={onTransposeUp} // Trigger transpose up
+      />
+      <img
+        src={down}
+        alt="down"
+        className="functions__icon"
+        onClick={onTransposeDown} // Trigger transpose down
+      />
       <img src={download} alt="download" className="functions__icon" />
     </div>
   );
