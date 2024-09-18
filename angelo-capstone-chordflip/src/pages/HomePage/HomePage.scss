@@ -15,6 +15,11 @@
         padding: 6.25rem;
     }
 
+    &__nav-item:hover {
+        transform: scale(1.1);
+        transition-duration: 500ms;
+    }
+
     @include tablet {
         &__logo {
             width: 18.125rem;
