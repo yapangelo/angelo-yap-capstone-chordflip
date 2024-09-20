@@ -19,7 +19,8 @@
     "sass": "^1.78.0",
     "slate": "^0.103.0",
     "slate-history": "^0.109.0",
-    "slate-react": "^0.110.1"
+    "slate-react": "^0.110.1",
+    "vexchords": "^1.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

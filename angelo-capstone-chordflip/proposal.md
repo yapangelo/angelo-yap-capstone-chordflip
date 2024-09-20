@@ -18,7 +18,7 @@ Musicians - Regardless of skill level - Looking to easily create songsheets - Ea
 - Users can input chords on top of song lyrics
 - All chords are transposable to a half step using + and - buttons
 - Once user is done creating the chord sheet, they can download it as a PDF
-- Chords will automatically be set to bold
+- ?? Chords will automatically be set to bold ?? (Not sure how to implement this yet)
 
 ## Implementation
 
@@ -31,37 +31,32 @@ Musicians - Regardless of skill level - Looking to easily create songsheets - Ea
   - react-router
   - axios
   - jsPDF (allows users to generate PDFs after creating chords)
-  - slate (framework for building rich text editor)
-  - slate-history (provides undo and redo function to the Slate editor)
-  - slate-react (makes it possible for developers to use Slate in the React app)
 - Server libraries:
   - express
-  - cors
-  - axios
-  - nodemon
-
-### Steps to run app
-
-#### client
-
-1. Git clone the client repo from https://github.com/yapangelo/capstone-chordflip.git
-2. Open the folder "capstone chordflip" in your code editor
-3. cd into directory "angelo-capstone-chordflip"
-4. npm i to install node modules
-5. npm run dev to run app
-
-#### server
-
-1. Git clone the server repo from https://github.com/yapangelo/capstone-chordflip-api.git
-2. cd into "capstone-chordflip-api" directory
-3. npm i express
-4. npm run dev to run server
 
 ### APIs
 
 - https://piano-chords.p.rapidapi.com
 
-### Piano Chords API Endpoints
+### Sitemap
+
+- homePage - main landing page
+- writePage - notepad style text area where users type in the lyrics and chords
+- instructionsPage - basic instructions on how to use the app
+- aboutPage - stuff about app
+
+### Mockups
+
+![](./public/readmeImages/homepage.PNG)
+![](./public/readmeImages/writepage.PNG)
+![](./public/readmeImages/instructionspage.PNG)
+![](./public/readmeImages/aboutpage.PNG)
+
+### Data
+
+n/a
+
+### Endpoints
 
 **GET /chords**
 
@@ -126,3 +121,45 @@ Response:
 67
 ]
 }
+
+**PUT /chords/{chord}/{variation}/generate-graphic**
+
+- Generates dynamic chord shape graphics when a user clicks on a chord
+- Can be used for piano or guitar
+
+Parameters: - {chord} (C, C#, D, Eb, ...) - {variation} (major, m, dim, 7, ...) - {instrument} (guitar, piano)
+
+## Roadmap
+
+- Create client side
+
+  - link to new github repo
+  - whole front end with routes
+
+- Setup back end API
+
+  - link to new github repo
+  - setup API routes
+    - GET /chords, GET /chords/{chord}, etc...
+
+- Feature: Chords
+
+  - Setup Chords to automatically be bold when typed
+  - Create transpose functions
+
+- Feature: Chord chart
+
+  - Create PUT /chords/{chord}/{variation}/generate-graphic endpoint
+  - Integrate to front-end
+
+- Pre-launch: Testing
+
+- Bug fixes
+
+- Deploy
+
+## Future Implementations
+
+- Add sound to each chords/notes when clicking chords
+- Add rhymes page so users can conveniently enter words and rhyming words would populate
+- Motion backgroun for webpage
