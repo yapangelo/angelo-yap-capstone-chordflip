@@ -163,6 +163,15 @@ const TextArea = () => {
     if (chordModifier.startsWith("#")) {
       const sharpChord = chordLetter + "#";
       const sharpModifier = chordModifier.slice(1);
+
+      if (sharpModifier.startsWith("sus")) {
+        return (
+          chordData[sharpChord] &&
+          (chordData[sharpChord]["sus2"] ||
+            chordData[sharpChord]["sus4"] ||
+            chordData[sharpChord]["sus"])
+        );
+      }
       return (
         chordData[sharpChord] &&
         (sharpModifier
