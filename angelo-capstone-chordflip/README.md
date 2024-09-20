@@ -40,22 +40,28 @@ Musicians - Regardless of skill level - Looking to easily create songsheets - Ea
   - axios
   - nodemon
 
+### Steps to run app
+
+#### client
+
+1. Git clone the client repo from https://github.com/yapangelo/capstone-chordflip.git
+2. Open the folder "capstone chordflip" in your code editor
+3. cd into directory "angelo-capstone-chordflip"
+4. npm i to install node modules
+5. npm run dev to run app
+
+#### server
+
+1. Git clone the server repo from https://github.com/yapangelo/capstone-chordflip-api.git
+2. cd into "capstone-chordflip-api" directory
+3. npm i express
+4. npm run dev to run server
+
 ### APIs
 
 - https://piano-chords.p.rapidapi.com
 
-### Sitemap
-
-- homePage - main landing page
-- writePage - notepad style text area where users type in the lyrics and chords
-- instructionsPage - basic instructions on how to use the app
-- aboutPage - stuff about app
-
-### Data
-
-n/a
-
-### Endpoints
+### Piano Chords API Endpoints
 
 **GET /chords**
 
