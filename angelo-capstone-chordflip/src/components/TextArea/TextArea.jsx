@@ -81,7 +81,7 @@ const TextArea = () => {
     };
 
     fetchChords();
-  }, [apiUrl]);
+  }, []);
 
   const transposeChord = (chord, direction) => {
     const chromaticScale = [
