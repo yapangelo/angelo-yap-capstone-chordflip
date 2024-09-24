@@ -70,8 +70,10 @@ const TextArea = () => {
   useEffect(() => {
     const fetchChords = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/chords");
-        console.log("API Response:", response.data);
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/chords`
+        );
+        // console.log("API Response:", response.data);
         setChordData(response.data);
       } catch (error) {
         console.error("Error fetching chords:", error);
@@ -142,60 +144,40 @@ const TextArea = () => {
   const handleTransposeDown = () => transposeText("down");
 
   const isChord = (word) => {
-    if (!word || word.length < 1) return false;
+    if (!word || word.length < 1 || word === "a") return false;
 
-    if (word === "a") {
-      return false;
-    }
+    const [baseChord, bassNote] = word.includes("/")
+      ? word.split("/")
+      : [word, null];
+    const chordLetter = baseChord[0].toUpperCase();
+    const chordModifier = baseChord.slice(1);
 
-    if (word.includes("/")) {
-      const [baseChord, bassNote] = word.split("/");
-      return isChord(baseChord) && isChord(bassNote);
-    }
+    const sharpChord = chordLetter + "#";
+    const sharpModifier = chordModifier.startsWith("#")
+      ? chordModifier.slice(1)
+      : null;
 
-    const chordLetter = word[0].toUpperCase();
-    const chordModifier = word.slice(1);
+    const isValidSusChord = (chord, modifier) =>
+      chordData[chord] &&
+      (chordData[chord]["sus2"] ||
+        chordData[chord]["sus4"] ||
+        chordData[chord][modifier]);
 
-    if (!chordModifier) {
-      return chordData[chordLetter] && chordData[chordLetter]["major"];
-    }
+    const result =
+      baseChord && bassNote
+        ? isChord(baseChord) && isChord(bassNote)
+        : chordModifier === ""
+        ? chordData[chordLetter] && chordData[chordLetter]["major"]
+        : chordModifier.startsWith("#")
+        ? sharpModifier && sharpModifier.startsWith("sus")
+          ? isValidSusChord(sharpChord, sharpModifier)
+          : chordData[sharpChord] &&
+            chordData[sharpChord][sharpModifier || "major"]
+        : chordModifier.startsWith("sus")
+        ? isValidSusChord(chordLetter, chordModifier)
+        : chordData[chordLetter] && chordData[chordLetter][chordModifier];
 
-    if (chordModifier.startsWith("#")) {
-      const sharpChord = chordLetter + "#";
-      const sharpModifier = chordModifier.slice(1);
-
-      if (sharpModifier.startsWith("sus")) {
-        return (
-          chordData[sharpChord] &&
-          (chordData[sharpChord]["sus2"] ||
-            chordData[sharpChord]["sus4"] ||
-            chordData[sharpChord]["sus"])
-        );
-      }
-      return (
-        chordData[sharpChord] &&
-        (sharpModifier
-          ? chordData[sharpChord][sharpModifier]
-          : chordData[sharpChord]["major"])
-      );
-    }
-
-    if (chordModifier.startsWith("sus")) {
-      if (
-        chordData[chordLetter] &&
-        (chordData[chordLetter]["sus2"] || chordData[chordLetter]["sus4"])
-      ) {
-        chordData[chordLetter]["sus"] =
-          chordData[chordLetter]["sus2"] || chordData[chordLetter]["sus4"];
-      }
-
-      return (
-        chordData[chordLetter] &&
-        (chordData[chordLetter]["sus"] || chordData[chordLetter][chordModifier])
-      );
-    }
-
-    return chordData[chordLetter] && chordData[chordLetter][chordModifier];
+    return result || false;
   };
 
   const decorate = useCallback(
