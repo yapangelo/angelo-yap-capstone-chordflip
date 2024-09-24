@@ -33,7 +33,7 @@ const InstructionsPage = () => {
               above the lyrics.
             </p>
           </li>
-          <li className="instructionspage__list-item">
+          {/* <li className="instructionspage__list-item">
             <h3 className="instructionspage__item-header">
               Switch Instruments
             </h3>
@@ -41,7 +41,7 @@ const InstructionsPage = () => {
               Click on the guitar or piano icon to switch which chord shapes you
               want to display
             </p>
-          </li>
+          </li> */}
           <li className="instructionspage__list-item">
             <h3 className="instructionspage__item-header">Save and Share</h3>
             <p className="instructionspage__item">
