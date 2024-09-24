@@ -67,12 +67,12 @@ const TextArea = () => {
 
   const [chordData, setChordData] = useState({});
 
+  const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/chords`;
+
   useEffect(() => {
     const fetchChords = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/chords`
-        );
+        const response = await axios.get(apiUrl);
         // console.log("API Response:", response.data);
         setChordData(response.data);
       } catch (error) {
@@ -81,7 +81,7 @@ const TextArea = () => {
     };
 
     fetchChords();
-  }, []);
+  }, [apiUrl]);
 
   const transposeChord = (chord, direction) => {
     const chromaticScale = [
